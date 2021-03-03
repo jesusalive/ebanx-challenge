@@ -1,5 +1,5 @@
-## :mailbox_with_mail: Application
+## :file_folder: Application
 
-Essa camada fica responsável por receber as requisições e tratá-las. Nela ficam controllers e alguns protocolos específicos.
+Essa camada é responsável principalmente pelas implementações de usecases (definidos no domain), além de ter alguns protocolos que são usados neles.
 
-Ela somente tem acesso a ela mesma e ao domínio.
+Ela exerga apenas a si mesma e ao domínio.
