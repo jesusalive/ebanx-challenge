@@ -1,11 +1,11 @@
-import { v4 as generateUuid } from 'uuid'
+import { nanoid } from 'nanoid'
 
 export class Account {
   private readonly id: string
   private readonly balance: number
 
   constructor (id?: string) {
-    this.id = id || generateUuid()
+    this.id = id || nanoid()
     this.balance = 0
   }
 
