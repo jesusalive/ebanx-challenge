@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/node": "^15.12.5",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "4",
     "eslint": "7",
     "eslint-config-standard-with-typescript": "^19.0.1",
@@ -30,6 +31,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "uuid": "^8.3.2"
   }
 }
