@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { ForbiddenError } from '../shared/errors'
+import { ForbiddenError } from '@/Domain/shared/errors'
 
 export class Account {
   private balance: number
