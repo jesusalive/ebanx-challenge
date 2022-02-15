@@ -1,12 +1,20 @@
 import { nanoid } from 'nanoid'
 
 export class Account {
+  private balance: number
   private readonly id: string
-  private readonly balance: number
 
   constructor (id?: string) {
     this.id = id || nanoid()
     this.balance = 0
+  }
+
+  makeDeposit (amount: number): void {
+    this.balance += amount
+  }
+
+  makeWithdraw (amount: number): void {
+    this.balance -= amount
   }
 
   getId (): string {
