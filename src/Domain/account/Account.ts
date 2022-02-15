@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid'
+import { ForbiddenError } from '../shared/errors'
 
 export class Account {
   private balance: number
@@ -14,6 +15,7 @@ export class Account {
   }
 
   makeWithdraw (amount: number): void {
+    if (amount > this.balance) throw new ForbiddenError('Account does not have enough balance to withdraw')
     this.balance -= amount
   }
 
