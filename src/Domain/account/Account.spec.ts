@@ -15,4 +15,21 @@ describe('Account', () => {
     const sut = new Account()
     expect(sut.getBalance()).toBe(0)
   })
+
+  test('Should increment in balance', () => {
+    const sut = new Account()
+
+    sut.makeDeposit(10)
+
+    expect(sut.getBalance()).toBe(10)
+  })
+
+  test('Should subtract of balance', () => {
+    const sut = new Account()
+
+    sut.makeDeposit(10)
+    sut.makeWithdraw(5)
+
+    expect(sut.getBalance()).toBe(5)
+  })
 })
