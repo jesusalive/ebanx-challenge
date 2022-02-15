@@ -1,4 +1,4 @@
-import { NotFoundError, ServerError } from '@/Domain/shared/errors'
+import { ServerError } from '@/Domain/shared/errors'
 import { HttpResponse } from '@/Presentation/api/protocols/Http'
 
 export const serverError = (error: Error, customMessage?: string): HttpResponse => ({
@@ -11,14 +11,7 @@ export const ok = (data?: any): HttpResponse => ({
   body: data
 })
 
-export const notFound = (error: Error): HttpResponse => ({
+export const notFound = (data: any): HttpResponse => ({
   statusCode: 404,
-  body: error
+  body: data
 })
-
-export const handlePresentationOfError = (err: Error): HttpResponse => {
-  switch (err.constructor) {
-    case NotFoundError: return notFound(err)
-    default: return serverError(err)
-  }
-}
