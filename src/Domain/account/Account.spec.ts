@@ -1,4 +1,3 @@
-import { ForbiddenError } from '../shared/errors'
 import { Account } from './Account'
 
 describe('Account', () => {
@@ -32,11 +31,5 @@ describe('Account', () => {
     sut.makeWithdraw(5)
 
     expect(sut.getBalance()).toBe(5)
-  })
-
-  test('Should throw a ForbiddenError if dont have enough balance to withdraw', () => {
-    const sut = new Account()
-
-    expect(() => sut.makeWithdraw(5)).toThrowError(new ForbiddenError('Account does not have enough balance to withdraw'))
   })
 })
