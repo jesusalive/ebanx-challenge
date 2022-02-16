@@ -1,4 +1,5 @@
 import { DbDeposit } from './DbDeposit'
+import { Account } from '@/Domain/account/Account'
 import { StoreAccountRepository } from '@/Domain/account/repositories/StoreAccountRepository'
 import { LoadAccountByIdRepository } from '@/Domain/account/repositories/LoadAccountByIdRepository'
 import { UpdateAccountByIdRepository } from '@/Domain/account/repositories/UpdateAccountByIdRepository'
@@ -41,7 +42,7 @@ describe('DbDeposit', () => {
     expect(loadByIdSpy).toHaveBeenCalledWith(accountId)
   })
 
-  test('Should call StoreAccountReposutory correctly if LoadAccountByIdRepository returns null', async () => {
+  test('Should call StoreAccountRepository correctly if LoadAccountByIdRepository returns null', async () => {
     const { sut, loadAccountByIdRepositoryStub, storeAccountRepositoryStub } = makeSut()
 
     const storeSpy = jest.spyOn(storeAccountRepositoryStub, 'store')
@@ -52,11 +53,7 @@ describe('DbDeposit', () => {
     const accountId = '123'
     await sut.do(10, accountId)
 
-    expect(storeSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        id: accountId
-      })
-    )
+    expect(storeSpy).toHaveBeenCalledWith(new Account(accountId))
   })
 
   test('Should call UpdateAccountByIdRepository with correct values', async () => {
