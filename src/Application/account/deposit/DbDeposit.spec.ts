@@ -1,20 +1,24 @@
 import { DbDeposit } from './DbDeposit'
 import { NotFoundError } from '@/Domain/shared/errors'
-import { makeLoadAccountByIdRepositoryStub } from '@/Domain/account/repositories/tests-helper'
 import { LoadAccountByIdRepository } from '@/Domain/account/repositories/LoadAccountByIdRepository'
+import { UpdateAccountByIdRepository } from '@/Domain/account/repositories/UpdateAccountByIdRepository'
+import { makeLoadAccountByIdRepositoryStub, makeUpdateAccountByIdRepositoryStub } from '@/Domain/account/repositories/tests-helper'
 
 interface SutTypes {
   sut: DbDeposit
   loadAccountByIdRepositoryStub: LoadAccountByIdRepository
+  updateAccountByIdRepositoryStub: UpdateAccountByIdRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadAccountByIdRepositoryStub = makeLoadAccountByIdRepositoryStub()
-  const sut = new DbDeposit(loadAccountByIdRepositoryStub)
+  const updateAccountByIdRepositoryStub = makeUpdateAccountByIdRepositoryStub()
+  const sut = new DbDeposit(loadAccountByIdRepositoryStub, updateAccountByIdRepositoryStub)
 
   return {
     sut,
-    loadAccountByIdRepositoryStub
+    loadAccountByIdRepositoryStub,
+    updateAccountByIdRepositoryStub
   }
 }
 
@@ -48,5 +52,18 @@ describe('DbGetBalance', () => {
     const updatedAccount = await sut.do(10, '123')
 
     expect(updatedAccount.getBalance()).toBe(25)
+  })
+
+  test('Should call UpdateAccountByIdRepository with correct values', async () => {
+    const { sut, updateAccountByIdRepositoryStub } = makeSut()
+
+    const updateByIdSpy = jest.spyOn(updateAccountByIdRepositoryStub, 'updateById')
+
+    const accountId = '123'
+    await sut.do(10, accountId)
+
+    expect(updateByIdSpy).toHaveBeenCalledWith(accountId, {
+      balance: 25
+    })
   })
 })
