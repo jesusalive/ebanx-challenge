@@ -1,7 +1,7 @@
 import { DbGetBalance } from './DbGetBalance'
+import { NotFoundError } from '@/Domain/shared/errors'
 import { makeLoadAccountByIdRepositoryStub } from '@/Domain/account/repositories/tests-helper'
 import { LoadAccountByIdRepository } from '@/Domain/account/repositories/LoadAccountByIdRepository'
-import { NotFoundError } from '@/Domain/shared/errors'
 
 interface SutTypes {
   sut: DbGetBalance
