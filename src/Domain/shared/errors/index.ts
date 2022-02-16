@@ -1,3 +1,5 @@
 export * from './ServerError'
 export * from './NotFoundError'
+export * from './BadInputError'
 export * from './ForbiddenError'
+export * from './MissingParamError'
