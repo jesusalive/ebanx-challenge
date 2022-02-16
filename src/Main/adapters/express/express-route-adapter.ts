@@ -8,6 +8,12 @@ export const adaptRoute = (controller: Controller) => {
     const httpRequest: HttpRequest = httpRequestFromExpressRequest(req)
     const httpResponse = await controller.handle(httpRequest)
 
+    if (httpResponse.statusCode === 400) {
+      return res.status(400).json({
+        error: httpRequest.body.message
+      })
+    }
+
     return res.status(httpResponse.statusCode).json(httpResponse.body)
   }
 }
