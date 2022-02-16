@@ -18,11 +18,14 @@ export class DbDeposit implements Deposit {
       await this.storeAccountRepository.store(account)
     }
 
-    account.makeDeposit(amount)
+    const modifiedAccount = new Account(account.getId())
+    modifiedAccount.setBalance(account.getBalance())
+
+    modifiedAccount.makeDeposit(amount)
     await this.updateAccountByIdRepository.updateById(accountId, {
-      balance: account.getBalance()
+      balance: modifiedAccount.getBalance()
     })
 
-    return account
+    return modifiedAccount
   }
 }
