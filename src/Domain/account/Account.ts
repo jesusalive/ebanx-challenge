@@ -24,4 +24,8 @@ export class Account {
   getBalance (): number {
     return this.balance
   }
+
+  setBalance (amount: number): void {
+    this.balance = amount
+  }
 }
