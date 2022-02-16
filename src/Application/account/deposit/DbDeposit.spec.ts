@@ -1,28 +1,35 @@
 import { DbDeposit } from './DbDeposit'
-import { NotFoundError } from '@/Domain/shared/errors'
+import { StoreAccountRepository } from '@/Domain/account/repositories/StoreAccountRepository'
 import { LoadAccountByIdRepository } from '@/Domain/account/repositories/LoadAccountByIdRepository'
 import { UpdateAccountByIdRepository } from '@/Domain/account/repositories/UpdateAccountByIdRepository'
-import { makeLoadAccountByIdRepositoryStub, makeUpdateAccountByIdRepositoryStub } from '@/Domain/account/repositories/tests-helper'
+import {
+  makeLoadAccountByIdRepositoryStub,
+  makeUpdateAccountByIdRepositoryStub,
+  makeStoreAccountRepositoryStub
+} from '@/Domain/account/repositories/tests-helper'
 
 interface SutTypes {
   sut: DbDeposit
+  storeAccountRepositoryStub: StoreAccountRepository
   loadAccountByIdRepositoryStub: LoadAccountByIdRepository
   updateAccountByIdRepositoryStub: UpdateAccountByIdRepository
 }
 
 const makeSut = (): SutTypes => {
+  const storeAccountRepositoryStub = makeStoreAccountRepositoryStub()
   const loadAccountByIdRepositoryStub = makeLoadAccountByIdRepositoryStub()
   const updateAccountByIdRepositoryStub = makeUpdateAccountByIdRepositoryStub()
-  const sut = new DbDeposit(loadAccountByIdRepositoryStub, updateAccountByIdRepositoryStub)
+  const sut = new DbDeposit(loadAccountByIdRepositoryStub, storeAccountRepositoryStub, updateAccountByIdRepositoryStub)
 
   return {
     sut,
+    storeAccountRepositoryStub,
     loadAccountByIdRepositoryStub,
     updateAccountByIdRepositoryStub
   }
 }
 
-describe('DbGetBalance', () => {
+describe('DbDeposit', () => {
   test('Should call LoadAccountByIdRepository with correct value', async () => {
     const { sut, loadAccountByIdRepositoryStub } = makeSut()
 
@@ -34,24 +41,22 @@ describe('DbGetBalance', () => {
     expect(loadByIdSpy).toHaveBeenCalledWith(accountId)
   })
 
-  test('Should throw a NotFoundError if LoadAccountByIdRepository returns null', async () => {
-    const { sut, loadAccountByIdRepositoryStub } = makeSut()
+  test('Should call StoreAccountReposutory correctly if LoadAccountByIdRepository returns null', async () => {
+    const { sut, loadAccountByIdRepositoryStub, storeAccountRepositoryStub } = makeSut()
 
+    const storeSpy = jest.spyOn(storeAccountRepositoryStub, 'store')
     jest
       .spyOn(loadAccountByIdRepositoryStub, 'loadById')
       .mockResolvedValue(null)
 
-    const promise = sut.do(10, '123')
+    const accountId = '123'
+    await sut.do(10, accountId)
 
-    await expect(promise).rejects.toEqual(new NotFoundError('Account not found'))
-  })
-
-  test('Should make deposit and return updated account on success', async () => {
-    const { sut } = makeSut()
-
-    const updatedAccount = await sut.do(10, '123')
-
-    expect(updatedAccount.getBalance()).toBe(25)
+    expect(storeSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: accountId
+      })
+    )
   })
 
   test('Should call UpdateAccountByIdRepository with correct values', async () => {
@@ -65,5 +70,13 @@ describe('DbGetBalance', () => {
     expect(updateByIdSpy).toHaveBeenCalledWith(accountId, {
       balance: 25
     })
+  })
+
+  test('Should make deposit and return updated account on success', async () => {
+    const { sut } = makeSut()
+
+    const updatedAccount = await sut.do(10, '123')
+
+    expect(updatedAccount.getBalance()).toBe(25)
   })
 })
