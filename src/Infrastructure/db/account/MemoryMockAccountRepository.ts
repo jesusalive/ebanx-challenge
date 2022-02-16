@@ -5,7 +5,7 @@ import { StoreAccountRepository } from '@/Domain/account/repositories/StoreAccou
 import { LoadAccountByIdRepository } from '@/Domain/account/repositories/LoadAccountByIdRepository'
 import { UpdateAccountByIdRepository, UpdateAccountData } from '@/Domain/account/repositories/UpdateAccountByIdRepository'
 
-export class MemoryAccountRepository implements
+export class MemoryMockAccountRepository implements
   StoreAccountRepository,
   DropAllDataRepository,
   LoadAccountByIdRepository,

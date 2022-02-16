@@ -1,7 +1,7 @@
 import { DbGetBalance } from '@/Application/account/get-balance/DbGetBalance'
-import { MemoryAccountRepository } from '@/Infrastructure/db/account/MemoryAccountRepository'
+import { MemoryMockAccountRepository } from '@/Infrastructure/db/account/MemoryMockAccountRepository'
 
 export const makeDbGetBalance = (): DbGetBalance => {
-  const memoryAccountRepository = new MemoryAccountRepository()
-  return new DbGetBalance(memoryAccountRepository)
+  const memoryMockAccountRepository = new MemoryMockAccountRepository()
+  return new DbGetBalance(memoryMockAccountRepository)
 }

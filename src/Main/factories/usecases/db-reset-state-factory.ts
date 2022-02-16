@@ -1,7 +1,7 @@
 import { DbResetState } from '@/Application/DbResetState'
-import { MemoryAccountRepository } from '@/Infrastructure/db/account/MemoryAccountRepository'
+import { MemoryMockAccountRepository } from '@/Infrastructure/db/account/MemoryMockAccountRepository'
 
 export const makeDbResetState = (): DbResetState => {
-  const memoryAccountRepository = new MemoryAccountRepository()
-  return new DbResetState(memoryAccountRepository, memoryAccountRepository)
+  const memoryMockAccountRepository = new MemoryMockAccountRepository()
+  return new DbResetState(memoryMockAccountRepository)
 }
