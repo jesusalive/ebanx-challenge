@@ -16,6 +16,11 @@ export const created = (data?: any): HttpResponse => ({
   body: data
 })
 
+export const ok = (data?: any): HttpResponse => ({
+  statusCode: 200,
+  body: data
+})
+
 export const plainText = (text: string): HttpResponse => ({
   statusCode: 200,
   contentType: 'plain/text',
