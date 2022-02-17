@@ -14,7 +14,7 @@ export const adaptRoute = (controller: Controller) => {
       return expressResponse.send(httpResponse.body)
     }
 
-    if (httpResponse.statusCode === 400) {
+    if (httpResponse.statusCode === 400 || httpResponse.statusCode === 500) {
       return expressResponse.json({
         error: httpResponse.body.message
       })
