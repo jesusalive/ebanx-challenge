@@ -1,4 +1,5 @@
 export interface HttpResponse {
+  contentType?: string
   statusCode: number
   body?: any
 }
