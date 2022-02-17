@@ -1,7 +1,7 @@
 import { ResetState } from '@/Domain/shared/usecases/ResetState'
 import { Controller } from '@/Presentation/api/protocols/Controller'
-import { plainText, serverError } from '@/Presentation/api/helpers/http-helper'
 import { HttpRequest, HttpResponse } from '@/Presentation/api/protocols/Http'
+import { plainText, serverError } from '@/Presentation/api/helpers/http-helper'
 
 export class ResetStateController implements Controller {
   constructor (
